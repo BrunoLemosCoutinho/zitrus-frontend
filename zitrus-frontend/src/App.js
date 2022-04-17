@@ -6,7 +6,7 @@ function App() {
   return (
     <Switch>
       <Route exact path="/" component={ Login } />
-      <Route exact path="/cadastro-usuario" component={ AddCustomer } />
+      <Route exact path="/cadastro-cliente" component={ AddCustomer } />
     </Switch>
 
   );
