@@ -1,5 +1,5 @@
 import Login from './Login';
-import CadastroUsuario from './CadastroUsuario';
+import AddCustomer from './AddCustomer';
 
 
-export { Login, CadastroUsuario };
+export { Login, AddCustomer };

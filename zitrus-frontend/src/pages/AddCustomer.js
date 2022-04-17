@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Loading } from '../components';
 import fetchCEP from '../services/apiServices';
-import './CadastroUsuario.css';
+import './AddCustomer.css';
 
 
-function CadastroUsuario() {
+function AddCustomer() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [hasAddressError, setHasAddressError] = useState(false);
     const [fetchingCEP, setFetchingCEP] = useState(false);
@@ -149,4 +149,4 @@ function CadastroUsuario() {
     );
 }
 
-export default CadastroUsuario;
+export default AddCustomer;

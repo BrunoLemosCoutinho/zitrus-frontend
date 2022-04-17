@@ -1,12 +1,12 @@
 
 import { Route, Switch } from 'react-router-dom';
-import { Login, CadastroUsuario } from './pages';
+import { Login, AddCustomer } from './pages';
 
 function App() {
   return (
     <Switch>
       <Route exact path="/" component={ Login } />
-      <Route exact path="/cadastro-usuario" component={ CadastroUsuario } />
+      <Route exact path="/cadastro-usuario" component={ AddCustomer } />
     </Switch>
 
   );
