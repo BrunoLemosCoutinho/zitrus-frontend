@@ -44,6 +44,7 @@ function AddCustomer() {
         });
     }
 
+
     const resetAddressInputs = () => {
         setFormData({
             ...formData,
@@ -54,6 +55,7 @@ function AddCustomer() {
         });
     }
 
+
     const isValidAddress = address => {
         if (address.error) return false;
         return true;
@@ -63,6 +65,7 @@ function AddCustomer() {
     const isCEPEmpty = () => {
         return formData.cep.length === 0;
     }
+
 
     const getAddress = async () => {
         if (isCEPEmpty()) {
