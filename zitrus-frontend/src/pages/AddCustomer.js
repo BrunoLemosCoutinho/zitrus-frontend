@@ -7,6 +7,8 @@ import './AddCustomer.css';
 
 function AddCustomer() {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const [status, setStatus] = useState('');
+    const [askCEP, setAskCEP] = useState(false);
     const [hasAddressError, setHasAddressError] = useState(false);
     const [fetchingCEP, setFetchingCEP] = useState(false);
     const [formData, setFormData] = useState({
@@ -22,13 +24,14 @@ function AddCustomer() {
     const { logradouro, bairro, localidade, uf } = formData;
 
     const handleInputChange = event => {
-        console.log("handleInputChange");
         const { name, value } = event.target;
         setFormData({
             ...formData,
             [name]: value,
         });
     }
+
+    
 
     const fillAddressInputs = address => {
         setFormData({
@@ -40,26 +43,71 @@ function AddCustomer() {
         });
     }
 
-    
+    const resetAddressInputs = () => {
+        setFormData({
+            ...formData,
+            bairro: '',
+            localidade: '',
+            logradouro: '',
+            uf: '',
+        });
+    }
 
     const isValidAddress = address => {
         if (address.error) return false;
         return true;
     }
 
-    const onSubmit = async data => {
-        console.log(data);
+
+    const isCEPEmpty = () => {
+        return formData.cep.length === 0;
+    }
+
+    const getAddress = async () => {
+        if (isCEPEmpty()) {
+            setAskCEP(true);
+            return;
+        } else {
+            setAskCEP(false);
+        }
         setFetchingCEP(true);
-        const address = await fetchCEP(data.cep);
+        const address = await fetchCEP(formData.cep);
+
         setFetchingCEP(false);
         if (!isValidAddress(address)) {
+            console.log('erro de cep', address);
             setHasAddressError(true);
-            console.log(address);
+            resetAddressInputs();
         } else {
             setHasAddressError(false);
             console.log(address);
             fillAddressInputs(address);
         }
+    }
+
+    const pegaClientes = () => {
+        fetch('/api/customers')
+            .then(response => response.json())
+            .then(json => console.log(json));
+    }
+    const saveCustomer = () => {
+        console.log("saveCustomer");
+        console.log(formData);
+        fetch('/api/salva', {
+            method: 'POST',
+            body: JSON.stringify({...formData})
+        })
+            .then(() => setStatus('success'))
+            .catch(error => {
+                console.log(error.message);
+                setStatus('error');
+            });
+    }
+
+
+    const onSubmit = async data => {
+        console.log(data);
+        saveCustomer();
 
     }
 
@@ -99,6 +147,7 @@ function AddCustomer() {
                         { ...register('cep', { required: {value: true, message: "CEP é obrigatório"}}) }
                     />
                 </label>
+                <input type="button" value="Buscar Endereço" onClick={ () => getAddress()}/>
                 { errors.cep && <p>{errors.cep.message}</p> }
                 <label>
                     Logradouro
@@ -144,7 +193,8 @@ function AddCustomer() {
             </form>
             { fetchingCEP && <Loading /> }
             { hasAddressError && <p>Erro de endereço</p> }
-            
+            { askCEP && <p>CEP vazio</p> }
+            <button onClick={() => pegaClientes()}>Pega clientes</button>
         </section>
     );
 }
