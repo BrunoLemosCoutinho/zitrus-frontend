@@ -95,7 +95,7 @@ function AddCustomer() {
     const saveCustomer = () => {
         console.log("saveCustomer");
         console.log(formData);
-        fetch('/api/salva', {
+        fetch('/api/customers', {
             method: 'POST',
             body: JSON.stringify({...formData})
         })
@@ -118,8 +118,8 @@ function AddCustomer() {
     }
 
     return (
-        <section className='cadastrar-usuario'>
-            <h1>Cadastro de Usuário</h1>
+        <section className='cadastrar-cliente'>
+            <h1>Cadastro de Cliente</h1>
             <form name="register" onSubmit={ handleSubmit(onSubmit) }>
                 <label>
                     Nome

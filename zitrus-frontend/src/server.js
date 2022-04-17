@@ -11,15 +11,13 @@ export function makeServer({ environment = 'test' }) {
         routes() {
             this.namespace = "api";
 
-            //   this.resource("customer");
+            //   this.resource("customers");
             this.passthrough();
             this.passthrough("https://opencep.com/v1/**");
 
 
-            this.post('/salva', (schema, request) => {
-                console.log("Rota create");
+            this.post('/customers', (schema, request) => {
                 let attrs = JSON.parse(request.requestBody);
-                console.log("attrs: ", attrs);
                 return schema.customers.create(attrs)
             });
 
