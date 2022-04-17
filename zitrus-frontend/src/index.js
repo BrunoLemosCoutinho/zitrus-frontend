@@ -7,6 +7,8 @@ import reportWebVitals from './reportWebVitals';
 import { makeServer } from './server';
 
 
+makeServer({ environment: "development" });
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
