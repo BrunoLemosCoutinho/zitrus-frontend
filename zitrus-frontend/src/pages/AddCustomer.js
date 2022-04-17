@@ -9,6 +9,8 @@ function AddCustomer() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [status, setStatus] = useState('');
     const [askCEP, setAskCEP] = useState(false);
+    const [askAddress, setAskAddress] = useState(false);
+    const [retrievedAddress, setRetrievedAddress] = useState(false);
     const [hasAddressError, setHasAddressError] = useState(false);
     const [fetchingCEP, setFetchingCEP] = useState(false);
     const [formData, setFormData] = useState({
@@ -30,7 +32,6 @@ function AddCustomer() {
             [name]: value,
         });
     }
-
     
 
     const fillAddressInputs = address => {
@@ -82,14 +83,12 @@ function AddCustomer() {
             setHasAddressError(false);
             console.log(address);
             fillAddressInputs(address);
+            setRetrievedAddress(true);
+
         }
     }
 
-    const pegaClientes = () => {
-        fetch('/api/customers')
-            .then(response => response.json())
-            .then(json => console.log(json));
-    }
+
     const saveCustomer = () => {
         console.log("saveCustomer");
         console.log(formData);
@@ -107,7 +106,11 @@ function AddCustomer() {
 
     const onSubmit = async data => {
         console.log(data);
-        saveCustomer();
+        if (retrievedAddress) {
+            saveCustomer();
+        } else {
+            setAskAddress(true);
+        }
 
     }
 
@@ -194,7 +197,9 @@ function AddCustomer() {
             { fetchingCEP && <Loading /> }
             { hasAddressError && <p>Erro de endereço</p> }
             { askCEP && <p>CEP vazio</p> }
-            <button onClick={() => pegaClientes()}>Pega clientes</button>
+            { askAddress && <p>Busque o endereço pelo CEP</p> }
+            { status === 'success' && <p>Cliente cadastrado com sucesso!</p> }
+            { status === 'error' && <p>Ocorreu um erro no cadastro do cliente...</p> }
         </section>
     );
 }
