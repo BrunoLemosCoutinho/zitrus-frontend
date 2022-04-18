@@ -43,7 +43,7 @@ function ListCustomers() {
                             <th scope="row">{customer.id}</th>
                             <td><Link to={`/clientes/${customer.id}`}>{customer.nome}</Link></td>
                             <td>{customer.email}</td>
-                            <td>DETALHES | EDITAR | EXCLUIR</td>
+                            <td>DETALHES | <Link to={`/editar-cliente/${customer.id}`}>Editar</Link> | EXCLUIR</td>
                         </tr>
 
                     ))}
