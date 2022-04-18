@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Table from 'react-bootstrap/Table';
+import { Link } from "react-router-dom";
+import { Menu } from '../components';
 import { Customer } from "../components";
 
 
@@ -24,6 +26,7 @@ function ListCustomers() {
 
     return (
         <section>
+            <Menu />
             <h1>Clientes</h1>
             <Table striped bordered hover>
                 <thead>
@@ -31,20 +34,16 @@ function ListCustomers() {
                         <th scope="col">Id</th>
                         <th scope="col">Nome</th>
                         <th scope="col">Email</th>
-                        <th scope="col">Ver Detalhes</th>
-                        <th scope="col">Editar</th>
-                        <th scope="col">Excluir</th>
+                        <th scope="col">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {!isFetching && customers.map((customer, index) => (
-                        <tr key={index}>
+                    {!isFetching && customers.map((customer) => (
+                        <tr key={customer.id}>
                             <th scope="row">{customer.id}</th>
-                            <td>{customer.nome}</td>
+                            <td><Link to={`/clientes/${customer.id}`}>{customer.nome}</Link></td>
                             <td>{customer.email}</td>
-                            <td>lupa</td>
-                            <td>editar</td>
-                            <td>lixeira</td>
+                            <td>DETALHES | EDITAR | EXCLUIR</td>
                         </tr>
 
                     ))}

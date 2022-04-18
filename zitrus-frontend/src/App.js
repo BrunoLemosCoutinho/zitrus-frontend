@@ -1,17 +1,16 @@
 
 import { Route, Switch } from 'react-router-dom';
-import { Login, AddCustomer, ListCustomers } from './pages';
-import { Menu } from './components';
+import { Login, AddCustomer, ListCustomers, CustomerDetails } from './pages';
 
 
 function App() {
   return (
     <div>
-      <Menu />
       <Switch>
         <Route exact path="/" component={ Login } />
         <Route exact path="/cadastro-cliente" component={ AddCustomer } />
         <Route exact path="/clientes" component={ ListCustomers } />
+        <Route exact path="/clientes/:customerId" component={ CustomerDetails } />
       </Switch>
     </div>
 

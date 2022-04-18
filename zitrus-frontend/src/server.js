@@ -25,7 +25,10 @@ export function makeServer({ environment = 'test' }) {
                 return schema.customers.all();
             });
 
-
+            this.get("/customers/:customerId", (schema, request) => {
+                const customerId = request.params.customerId;
+                return schema.customers.find(customerId);
+              })
         },
     })
 }

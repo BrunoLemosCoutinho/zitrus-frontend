@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { Loading } from '../components';
 import fetchCEP from '../services/apiServices';
+import { Menu } from '../components';
 import './AddCustomer.css';
 
 
@@ -126,6 +127,7 @@ function AddCustomer() {
 
     return (
         <section className='cadastro-cliente'>
+            <Menu />
             <button onClick={() => getCustomers() }>CLientes</button>
             <h1>Cadastro de Cliente</h1>
             <form name="register" onSubmit={ handleSubmit(onSubmit) }>
