@@ -21,7 +21,7 @@ function CustomerDetails({ match }) {
     return (
         <section>
             <Menu />
-            <h1>Customer Details</h1>
+            <h1>Detalhes do Cliente</h1>
             {isFetching && <Loading />}
             {!isFetching &&
                 <div className="customer-details-container">
