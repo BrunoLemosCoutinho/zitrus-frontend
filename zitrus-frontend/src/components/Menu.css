@@ -1,0 +1,11 @@
+.links {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+
+}
+
+.links li {
+    text-decoration: none;
+    list-style-type: none;
+}

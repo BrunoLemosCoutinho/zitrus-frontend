@@ -11,7 +11,7 @@ export function makeServer({ environment = 'test' }) {
         routes() {
             this.namespace = "api";
 
-            //   this.resource("customers");
+            this.resource("customers");
             this.passthrough();
             this.passthrough("https://opencep.com/v1/**");
 
@@ -21,7 +21,10 @@ export function makeServer({ environment = 'test' }) {
                 return schema.customers.create(attrs)
             });
 
-            this.get('/customers');
+            this.get('/customers', (schema) => {
+                return schema.customers.all();
+            });
+
 
         },
     })

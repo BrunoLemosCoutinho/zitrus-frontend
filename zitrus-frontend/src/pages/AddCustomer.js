@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 import { Loading } from '../components';
 import fetchCEP from '../services/apiServices';
 import './AddCustomer.css';
@@ -75,19 +76,19 @@ function AddCustomer() {
             setAskCEP(false);
         }
         setFetchingCEP(true);
+        setAskAddress(false);
         const address = await fetchCEP(formData.cep);
 
         setFetchingCEP(false);
-        if (!isValidAddress(address)) {
-            console.log('erro de cep', address);
-            setHasAddressError(true);
-            resetAddressInputs();
-        } else {
+        if (isValidAddress(address)) {
             setHasAddressError(false);
             console.log(address);
             fillAddressInputs(address);
             setRetrievedAddress(true);
-
+        } else {
+            console.log('erro de cep', address);
+            setHasAddressError(true);
+            resetAddressInputs();
         }
     }
 
@@ -117,8 +118,15 @@ function AddCustomer() {
 
     }
 
+    const getCustomers = async () => {
+        const requestResponse = await fetch('/api/customers');
+        const data = await requestResponse.json();
+        console.log("getCustomers", data);
+    }
+
     return (
-        <section className='cadastrar-cliente'>
+        <section className='cadastro-cliente'>
+            <button onClick={() => getCustomers() }>CLientes</button>
             <h1>Cadastro de Cliente</h1>
             <form name="register" onSubmit={ handleSubmit(onSubmit) }>
                 <label>
@@ -203,6 +211,7 @@ function AddCustomer() {
             { askAddress && <p>Busque o endereço pelo CEP</p> }
             { status === 'success' && <p>Cliente cadastrado com sucesso!</p> }
             { status === 'error' && <p>Ocorreu um erro no cadastro do cliente...</p> }
+
         </section>
     );
 }
