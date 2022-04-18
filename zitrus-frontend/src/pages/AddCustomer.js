@@ -25,7 +25,7 @@ function AddCustomer() {
         uf: '',
     });
 
-    const { logradouro, bairro, localidade, uf } = formData;
+    const { nome, email, cep, logradouro, bairro, localidade, uf } = formData;
 
     const handleInputChange = event => {
         const { name, value } = event.target;
@@ -137,8 +137,9 @@ function AddCustomer() {
                         type="text"
                         placeholder="Nome"
                         name="nome"
-                        onKeyUp={ (event) => handleInputChange(event) }
+                        value={nome}
                         { ...register('nome', {required: {value: true, message: "Nome é obrigatório"}}) }
+                        onChange={handleInputChange}
                     />
                 </label>
                 { errors.nome && <p>{errors.nome.message}</p> }
@@ -148,8 +149,9 @@ function AddCustomer() {
                         type="text"
                         placeholder="Email"
                         name="email"
-                        onKeyUp={ (event) => handleInputChange(event) }
+                        value={email}
                         { ...register('email', { required: {value: true, message: "Email é obrigatório"}}) }
+                        onChange={handleInputChange}
                     />
                 </label>
                 { errors.email && <p>{errors.email.message}</p> }
@@ -159,8 +161,9 @@ function AddCustomer() {
                         type="text"
                         placeholder="CEP"
                         name="cep"
-                        onKeyUp={ (event) => handleInputChange(event) }
+                        value={cep}
                         { ...register('cep', { required: {value: true, message: "CEP é obrigatório"}}) }
+                        onChange={handleInputChange}
                     />
                 </label>
                 <input type="button" value="Buscar Endereço" onClick={ () => getAddress()}/>
