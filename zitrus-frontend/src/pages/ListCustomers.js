@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
-import { Menu } from '../components';
+import { Menu, Loading } from '../components';
 import './ListCustomers.css';
 
 
@@ -38,6 +38,7 @@ function ListCustomers() {
         <section>
             <Menu />
             <h1>Clientes</h1>
+            {isFetching && <Loading />}
             <Table striped bordered hover>
                 <thead>
                     <tr>
