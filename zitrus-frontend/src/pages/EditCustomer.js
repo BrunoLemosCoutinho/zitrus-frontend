@@ -98,8 +98,8 @@ function EditCustomer({ match }) {
     const saveCustomer = () => {
         console.log("saveCustomer");
         console.log(formData);
-        fetch('/api/customers', {
-            method: 'POST',
+        fetch(`/api/customers/${formData.id}`, {
+            method: 'PATCH',
             body: JSON.stringify({ ...formData })
         })
             .then(() => setStatus('success'))

@@ -28,7 +28,14 @@ export function makeServer({ environment = 'test' }) {
             this.get("/customers/:customerId", (schema, request) => {
                 const customerId = request.params.customerId;
                 return schema.customers.find(customerId);
-              })
+            });
+
+            this.patch("/customers/:customerId", (schema, request) => {
+                let newAttrs = JSON.parse(request.requestBody)
+                let customerId = request.params.customerId
+                let customers = schema.customers.find(customerId)
+                return customers.update(newAttrs)
+            })
         },
     })
 }
