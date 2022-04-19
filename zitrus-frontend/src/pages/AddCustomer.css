@@ -1,0 +1,35 @@
+form {
+    border: 1px solid black;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 400px;
+    padding: 15px;
+}
+
+label {
+    display: flex !important;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.label-text {
+    margin-right: 200px;
+}
+
+.form-item {
+    border: 1px solid red;
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+}
+
+
+input {
+    width: 450px;
+}
+
+input[name="cep"] {
+    width: 160px;
+  }

@@ -34,7 +34,7 @@ function AddCustomer() {
             [name]: value,
         });
     }
-    
+
 
     const fillAddressInputs = address => {
         setFormData({
@@ -99,7 +99,7 @@ function AddCustomer() {
         console.log(formData);
         fetch('/api/customers', {
             method: 'POST',
-            body: JSON.stringify({...formData})
+            body: JSON.stringify({ ...formData })
         })
             .then(() => setStatus('success'))
             .catch(error => {
@@ -124,93 +124,120 @@ function AddCustomer() {
         <section className='cadastro-cliente'>
             <Menu />
             <h1>Cadastro de Cliente</h1>
-            <form name="register" onSubmit={ handleSubmit(onSubmit) }>
-                <label>
-                    Nome
-                    <input
-                        type="text"
-                        placeholder="Nome"
-                        name="nome"
-                        value={nome}
-                        { ...register('nome', {required: {value: true, message: "Nome é obrigatório"}}) }
-                        onChange={handleInputChange}
-                    />
-                </label>
-                { errors.nome && <p>{errors.nome.message}</p> }
-                <label>
-                    Email
-                    <input
-                        type="text"
-                        placeholder="Email"
-                        name="email"
-                        value={email}
-                        { ...register('email', { required: {value: true, message: "Email é obrigatório"}}) }
-                        onChange={handleInputChange}
-                    />
-                </label>
-                { errors.email && <p>{errors.email.message}</p> }
-                <label>
-                    CEP
-                    <input
-                        type="text"
-                        placeholder="CEP"
-                        name="cep"
-                        value={cep}
-                        { ...register('cep', { required: {value: true, message: "CEP é obrigatório"}}) }
-                        onChange={handleInputChange}
-                    />
-                </label>
-                <input type="button" value="Buscar Endereço" onClick={ () => getAddress()}/>
-                { errors.cep && <p>{errors.cep.message}</p> }
-                <label>
-                    Logradouro
-                    <input
-                        disabled
-                        type="text"
-                        placeholder="Logradouro"
-                        name="logradouro"
-                        value={ logradouro }
-                    />
-                </label>
-                <label>
-                    Bairro
-                    <input
-                        disabled
-                        type="text"
-                        placeholder="Bairro"
-                        name="bairro"
-                        value={ bairro }
-                    />
-                </label>
-                <label>
-                    Localidade
-                    <input
-                        disabled
-                        type="text"
-                        placeholder="Localidade"
-                        name="localidade"
-                        value={ localidade }
-                    />
-                </label>
-                <label>
-                    UF
-                    <input
-                        disabled
-                        type="text"
-                        placeholder="UF"
-                        name="uf"
-                        value={ uf }
-                    />
-                </label>
+            <form name="register" onSubmit={handleSubmit(onSubmit)}>
+                <div className='form-item'>
+                    <label>
+                        <span className='label-text'>
+                            Nome
+                        </span>
+                        <input
+                            type="text"
+                            placeholder="Nome"
+                            name="nome"
+                            value={nome}
+                            {...register('nome', { required: { value: true, message: "Nome é obrigatório" } })}
+                            onChange={handleInputChange}
+                        />
+                    </label>
+                    {errors.nome && <p>{errors.nome.message}</p>}
+                </div>
+                <div className='form-item'>
+                    <label>
+                        <span className='label-text'>
+                            Email
+                        </span>
+                        <input
+                            type="text"
+                            placeholder="Email"
+                            name="email"
+                            value={email}
+                            {...register('email', { required: { value: true, message: "Email é obrigatório" } })}
+                            onChange={handleInputChange}
+                        />
+                    </label>
+                    {errors.email && <p>{errors.email.message}</p>}
+                </div>
+                <div className='form-item'>
+                    <label>
+                        <span className='label-text'>
+                            CEP
+                        </span>
+                        <input
+                            type="text"
+                            placeholder="CEP"
+                            name="cep"
+                            value={cep}
+                            {...register('cep', { required: { value: true, message: "CEP é obrigatório" } })}
+                            onChange={handleInputChange}
+                        />
+                    </label>
+                    <input type="button" value="Buscar Endereço" onClick={() => getAddress()} />
+                    {errors.cep && <p>{errors.cep.message}</p>}
+                </div>
+                <div className='form-item'>
+                    <label>
+                        <span className='label-text'>
+                            Logradouro
+                        </span>
+                        <input
+                            disabled
+                            type="text"
+                            placeholder="Logradouro"
+                            name="logradouro"
+                            value={logradouro}
+                        />
+                    </label>
+                </div>
+                <div className='form-item'>
+                    <label>
+                        <span className='label-text'>
+                            Bairro
+                        </span>
+                        <input
+                            disabled
+                            type="text"
+                            placeholder="Bairro"
+                            name="bairro"
+                            value={bairro}
+                        />
+                    </label>
+                </div>
+                <div className='form-item'>
+                    <label>
+                        <span className='label-text'>
+                            Localidade
+                        </span>
+                        <input
+                            disabled
+                            type="text"
+                            placeholder="Localidade"
+                            name="localidade"
+                            value={localidade}
+                        />
+                    </label>
+                </div>
+                <div className='form-item'>
+                    <label>
+                        <span className='label-text'>
+                            UF
+                        </span>
+                        <input
+                            disabled
+                            type="text"
+                            placeholder="UF"
+                            name="uf"
+                            value={uf}
+                        />
+                    </label>
+                </div>
                 <input type="submit" />
             </form>
-            { fetchingCEP && <Loading /> }
-            { hasAddressError && <p>Erro de endereço</p> }
-            { askCEP && <p>CEP vazio</p> }
-            { askAddress && <p>Busque o endereço pelo CEP</p> }
-            { status === 'success' && <p>Cliente cadastrado com sucesso!</p> }
-            { status === 'error' && <p>Ocorreu um erro no cadastro do cliente...</p> }
-
+            {fetchingCEP && <Loading />}
+            {hasAddressError && <p>Erro de endereço</p>}
+            {askCEP && <p>CEP vazio</p>}
+            {askAddress && <p>Busque o endereço pelo CEP</p>}
+            {status === 'success' && <p>Cliente cadastrado com sucesso!</p>}
+            {status === 'error' && <p>Ocorreu um erro no cadastro do cliente...</p>}
         </section>
     );
 }
