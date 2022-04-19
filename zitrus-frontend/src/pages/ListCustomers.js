@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from 'react-bootstrap/Table';
 import { Link } from "react-router-dom";
 import { Menu } from '../components';
-import { Customer } from "../components";
+import './ListCustomers.css';
 
 
 function ListCustomers() {
@@ -43,7 +43,13 @@ function ListCustomers() {
                             <th scope="row">{customer.id}</th>
                             <td><Link to={`/clientes/${customer.id}`}>{customer.nome}</Link></td>
                             <td>{customer.email}</td>
-                            <td>DETALHES | <Link to={`/editar-cliente/${customer.id}`}>Editar</Link> | EXCLUIR</td>
+                            <td>
+                                <div className="actions">
+                                    <div><Link to={`/clientes/${customer.id}`}>DETALHES</Link></div>
+                                    <div><Link to={`/editar-cliente/${customer.id}`}>Editar</Link></div>
+                                    <div>EXCLUIR</div>
+                                </div>
+                            </td>
                         </tr>
 
                     ))}
