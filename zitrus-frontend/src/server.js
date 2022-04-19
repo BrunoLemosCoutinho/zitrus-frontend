@@ -5,7 +5,7 @@ export function makeServer({ environment = 'test' }) {
         environment,
 
         models: {
-            customers: Model,
+            customer: Model,
         },
 
         routes() {
@@ -42,5 +42,17 @@ export function makeServer({ environment = 'test' }) {
                 return schema.customers.find(customerId).destroy();
             });
         },
+
+        // seeds(server) {
+        //     server.create('customer', {
+        //         nome: 'José da Silva',
+        //         email: 'jose_silva@gmail.com',
+        //         cep: '40050-570',
+        //         logradouro: 'Largo da Fonte Nova',
+        //         bairro: 'Nazaré',
+        //         localidade: 'Salvador',
+        //         uf: 'BA',
+        //     });
+        // },
     })
 }

@@ -130,7 +130,7 @@ function EditCustomer({ match }) {
         <section className='cadastro-cliente'>
             <Menu />
             <button onClick={() => getCustomers()}>CLientes</button>
-            <h1>Cadastro de Cliente</h1>
+            <h1>Editar Cliente</h1>
             {isFetching && <Loading />}
             {!isFetching &&
                 <form name="register" onSubmit={handleSubmit(onSubmit)}>
