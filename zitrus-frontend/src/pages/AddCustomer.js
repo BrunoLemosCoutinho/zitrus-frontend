@@ -119,16 +119,10 @@ function AddCustomer() {
 
     }
 
-    const getCustomers = async () => {
-        const requestResponse = await fetch('/api/customers');
-        const data = await requestResponse.json();
-        console.log("getCustomers", data);
-    }
 
     return (
         <section className='cadastro-cliente'>
             <Menu />
-            <button onClick={() => getCustomers() }>CLientes</button>
             <h1>Cadastro de Cliente</h1>
             <form name="register" onSubmit={ handleSubmit(onSubmit) }>
                 <label>

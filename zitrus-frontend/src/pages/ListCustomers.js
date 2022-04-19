@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
 import { Menu } from '../components';
 import './ListCustomers.css';
@@ -8,7 +9,9 @@ import './ListCustomers.css';
 function ListCustomers() {
 
     const [customers, setCustomers] = useState([]);
-    const [isFetching, setIsFetching] = useState(true)
+    const [isFetching, setIsFetching] = useState(true);
+    const [updateState, setUpdateState] = useState();
+    const forceUpdate = useCallback(() => setUpdateState({}), []);
 
     useEffect(() => {
         const getCustomers = async () => {
@@ -21,8 +24,15 @@ function ListCustomers() {
         }
 
         getCustomers();
-    }, []);
+    }, [updateState]);
 
+    const handleDelete = (customerId) => {
+        console.log("DELETE");
+        console.log(customerId);
+        fetch(`/api/customers/${customerId}`, {
+            method: 'DELETE',
+        }).then(() => forceUpdate());
+    }
 
     return (
         <section>
@@ -34,7 +44,7 @@ function ListCustomers() {
                         <th scope="col">Id</th>
                         <th scope="col">Nome</th>
                         <th scope="col">Email</th>
-                        <th scope="col">Ações</th>
+                        <th scope="col" className="actions-header">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,9 +55,9 @@ function ListCustomers() {
                             <td>{customer.email}</td>
                             <td>
                                 <div className="actions">
-                                    <div><Link to={`/clientes/${customer.id}`}>DETALHES</Link></div>
-                                    <div><Link to={`/editar-cliente/${customer.id}`}>Editar</Link></div>
-                                    <div>EXCLUIR</div>
+                                    <Link to={`/clientes/${customer.id}`}><Button variant="primary">DETALHES</Button></Link>
+                                    <Link to={`/editar-cliente/${customer.id}`}><Button variant="secondary">EDITAR</Button></Link>
+                                    <Button onClick={() => handleDelete(customer.id)} variant="danger">EXCLUIR</Button>
                                 </div>
                             </td>
                         </tr>

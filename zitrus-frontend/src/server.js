@@ -18,7 +18,7 @@ export function makeServer({ environment = 'test' }) {
 
             this.post('/customers', (schema, request) => {
                 let attrs = JSON.parse(request.requestBody);
-                return schema.customers.create(attrs)
+                return schema.customers.create(attrs);
             });
 
             this.get('/customers', (schema) => {
@@ -31,11 +31,16 @@ export function makeServer({ environment = 'test' }) {
             });
 
             this.patch("/customers/:customerId", (schema, request) => {
-                let newAttrs = JSON.parse(request.requestBody)
-                let customerId = request.params.customerId
-                let customers = schema.customers.find(customerId)
-                return customers.update(newAttrs)
-            })
+                let newAttrs = JSON.parse(request.requestBody);
+                let customerId = request.params.customerId;
+                let customers = schema.customers.find(customerId);
+                return customers.update(newAttrs);
+            });
+
+            this.delete("/customers/:customerId", (schema, request) => {
+                let customerId = request.params.customerId;
+                return schema.customers.find(customerId).destroy();
+            });
         },
     })
 }

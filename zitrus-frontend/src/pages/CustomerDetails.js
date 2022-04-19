@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
 import { Loading, Menu } from "../components";
 import './CustomerDetails.css';
@@ -61,7 +62,7 @@ function CustomerDetails({ match }) {
                             </tr>
                         </tbody>
                     </Table>
-                    <Link to={`/editar-cliente/${customer.id}`}>Editar Cliente</Link>
+                    <Link to={`/editar-cliente/${customer.id}`}><Button variant="secondary">EDITAR</Button></Link>
                 </div>
             }
         </section>
