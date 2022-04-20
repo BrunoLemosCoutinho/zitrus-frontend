@@ -275,7 +275,7 @@ function EditCustomer({ match }) {
                             </label>
                         </div>
                         <div className="register-container">
-                            <Button className="btn cadastrar" variant="primary" type="submit">Editar Cliente</Button>
+                            <Button className="btn cadastrar" variant="primary" type="submit">SALVAR</Button>
                             <Button className="btn excluir" onClick={() => handleDelete(formData.id)} variant="danger">EXCLUIR</Button>
                         </div>
                     </form>
