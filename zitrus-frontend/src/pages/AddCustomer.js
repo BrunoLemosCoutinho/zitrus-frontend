@@ -204,7 +204,14 @@ function AddCustomer() {
                             // onFocus={() => clearErrors('cep')}
                             />
                         </label>
-                        <Button className="btn buscar-cep" variant="secondary" size="sm" onClick={() => getAddress()}>Buscar Endereço</Button>
+                        <Button
+                            className="btn buscar-cep"
+                            variant="secondary"
+                            size="sm"
+                            onClick={() => getAddress()}
+                        >
+                            BUSCAR ENDEREÇO
+                        </Button>
                     </div>
                     <div className='form-item'>
                         <label>
@@ -263,7 +270,7 @@ function AddCustomer() {
                         </label>
                     </div>
                     <div className="register-container">
-                        <Button className="btn cadastrar" variant="primary" type="submit">Cadastrar Cliente</Button>
+                        <Button className="btn cadastrar" variant="primary" type="submit">CADASTRAR CLIENTE</Button>
                     </div>
                 </form>
             </div>
