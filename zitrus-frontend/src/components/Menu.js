@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Navbar from 'react-bootstrap/Navbar'
+import Nav from 'react-bootstrap/Nav'
+import Container from 'react-bootstrap/Container'
 import './Menu.css';
 
 
@@ -7,10 +10,15 @@ function Menu() {
     return (
         <header>
             <nav>
-                <ul className="links">
-                    <li><Link to="/clientes">Clientes</Link></li>
-                    <li><Link to="/cadastro-cliente">Cadastrar Cliente</Link></li>
-                </ul>
+                <Navbar bg="primary" variant="dark">
+                    <Container>
+                        <Navbar.Brand href="#">Loja do Arnaldo</Navbar.Brand>
+                        <Nav className="me-auto">
+                            <Nav.Link href="/clientes">Clientes</Nav.Link>
+                            <Nav.Link href="/cadastro-cliente">Cadastrar Cliente</Nav.Link>
+                        </Nav>
+                    </Container>
+                </Navbar>
             </nav>
         </header>
     );
