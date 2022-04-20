@@ -1,0 +1,79 @@
+.form-container {
+    /* border: 2px dotted violet; */
+    height: 500px;
+}
+
+form {
+    /* border: 1px solid black; */
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 500px;
+    padding: 15px;
+}
+
+.form-item {
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+    padding: 10px 5px 10px 0;
+    margin-bottom: 10px;
+}
+
+
+label {
+    display: flex !important;
+    align-items: center;
+    width: 100%;
+}
+
+
+.label-text {
+    margin-right: 100px;
+}
+
+
+span {
+    margin-left: 5px;
+}
+
+
+input {
+    width: 500px;
+    margin-left: auto !important;
+}
+
+
+input[name="cep"] {
+    width: 250px;
+}
+
+
+.btn.cadastrar {
+    margin-top: 10px;
+    width: 200px;
+}
+
+.btn.buscar-cep {
+    width: 300px;
+    margin-left: 15px;
+}
+
+
+.error-msg {
+    color: red;
+    margin: 2px 0 15px;
+}
+
+
+.alert {
+    width: 300px;
+    margin-left: 50px;
+}
+
+
+.title-container {
+    display: flex;
+}
