@@ -90,7 +90,7 @@ function CustomerDetails({ match }) {
                     </Table>
                     <div className="register-container">
                         <Link to={`/editar-cliente/${customer.id}`}><Button variant="secondary">EDITAR</Button></Link>
-                        <Button className="btn excluir" onClick={() => handleDelete(customer.id)} variant="danger">EXCLUIR</Button>
+                        <Button className="btn detalhes-excluir" onClick={() => handleDelete(customer.id)} variant="danger">EXCLUIR</Button>
                     </div>
                 </div>
             }

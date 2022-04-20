@@ -1,3 +1,13 @@
+table {
+    width: 700px;
+}
+
+
+td {
+    text-align: left;
+}
+
+
 .customer-details th {
     width: 150px;
 }
@@ -8,7 +18,7 @@
 }
 
 
-.btn-danger {
+.detalhes-excluir {
     margin-top: 10px;
     width: 200px;
     margin-left: 10px;
