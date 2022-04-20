@@ -56,6 +56,13 @@ input[name="cep"] {
     width: 200px;
 }
 
+.btn-danger {
+    margin-top: 10px;
+    width: 200px;
+    margin-left: 10px;
+}
+
+
 .btn.buscar-cep {
     width: 300px;
     margin-left: 15px;

@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
+import { useHistory } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert'
 import { Menu, Loading } from "../components";
 import fetchCEP from '../services/apiServices';
+import './EditCustomer.css';
 
 function EditCustomer({ match }) {
+    const history = useHistory();
     const { register, handleSubmit, formState: { errors }, clearErrors } = useForm();
     const customerId = match.params.customerId;
     const [isFetching, setIsFetching] = useState(true);
@@ -130,12 +133,32 @@ function EditCustomer({ match }) {
         console.log("getCustomers", data);
     }
 
+    const handleDelete = (customerId) => {
+        console.log("DELETE");
+        console.log(customerId);
+        fetch(`/api/customers/${customerId}`, {
+            method: 'DELETE',
+        })
+        .then(() => {
+            setTimeout(() => {
+                setStatus('delete');
+                setTimeout(() => history.push('/clientes'), 3000);
+            }, 3000);
+        })
+        .catch(error => {
+            console.log(error.message);
+            setStatus('error');
+        });
+    }
+
+
     return (
         <section className='cadastro-cliente'>
             <Menu />
             <div className="title-container">
                 <h1>Editar Cliente</h1>
                 {status === 'success' && <Alert variant="success">Cliente editado com sucesso!</Alert>}
+                {status === 'delete' && <Alert variant="danger">Cliente excluído!</Alert>}
                 {status === 'error' && <p>Ocorreu um erro na edição do cliente...</p>}
                 {isFetching && <Loading />}
 
@@ -253,6 +276,7 @@ function EditCustomer({ match }) {
                         </div>
                         <div className="register-container">
                             <Button className="btn cadastrar" variant="primary" type="submit">Editar Cliente</Button>
+                            <Button className="btn excluir" onClick={() => handleDelete(formData.id)} variant="danger">EXCLUIR</Button>
                         </div>
                     </form>
                 </div>
