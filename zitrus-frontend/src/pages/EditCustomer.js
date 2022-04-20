@@ -23,7 +23,7 @@ function EditCustomer({ match }) {
         fetch(`/api/customers/${customerId}`)
             .then((response) => response.json())
             .then((data) => {
-                setFormData(data.customers);
+                setFormData(data.customer);
                 setIsFetching(false);
             });
     }, []);

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert'
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
 import { Loading } from '../components';
 import fetchCEP from '../services/apiServices';
 import { Menu } from '../components';
@@ -8,7 +9,7 @@ import './AddCustomer.css';
 
 
 function AddCustomer() {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, clearErrors } = useForm();
     const [status, setStatus] = useState('');
     const [askCEP, setAskCEP] = useState(false);
     const [askAddress, setAskAddress] = useState(false);
@@ -29,6 +30,7 @@ function AddCustomer() {
 
     const handleInputChange = event => {
         const { name, value } = event.target;
+        clearErrors(name);
         setFormData({
             ...formData,
             [name]: value,
@@ -53,6 +55,18 @@ function AddCustomer() {
             bairro: '',
             localidade: '',
             logradouro: '',
+            uf: '',
+        });
+    }
+
+    const resetAllInputs = () => {
+        setFormData({
+            nome: '',
+            email: '',
+            cep: '',
+            logradouro: '',
+            bairro: '',
+            localidade: '',
             uf: '',
         });
     }
@@ -102,6 +116,12 @@ function AddCustomer() {
             body: JSON.stringify({ ...formData })
         })
             .then(() => setStatus('success'))
+            .then(() => {
+                setTimeout(() => {
+                    resetAllInputs();
+                    setStatus('');
+                }, 3000);
+            })
             .catch(error => {
                 console.log(error.message);
                 setStatus('error');
@@ -123,121 +143,131 @@ function AddCustomer() {
     return (
         <section className='cadastro-cliente'>
             <Menu />
-            <h1>Cadastro de Cliente</h1>
-            <form name="register" onSubmit={handleSubmit(onSubmit)}>
-                <div className='form-item'>
-                    <label>
-                        <span className='label-text'>
-                            Nome
-                        </span>
-                        <input
-                            type="text"
-                            placeholder="Nome"
-                            name="nome"
-                            value={nome}
-                            {...register('nome', { required: { value: true, message: "Nome é obrigatório" } })}
-                            onChange={handleInputChange}
-                        />
-                    </label>
-                    {errors.nome && <p>{errors.nome.message}</p>}
-                </div>
-                <div className='form-item'>
-                    <label>
-                        <span className='label-text'>
-                            Email
-                        </span>
-                        <input
-                            type="text"
-                            placeholder="Email"
-                            name="email"
-                            value={email}
-                            {...register('email', { required: { value: true, message: "Email é obrigatório" } })}
-                            onChange={handleInputChange}
-                        />
-                    </label>
-                    {errors.email && <p>{errors.email.message}</p>}
-                </div>
-                <div className='form-item'>
-                    <label>
-                        <span className='label-text'>
-                            CEP
-                        </span>
-                        <input
-                            type="text"
-                            placeholder="CEP"
-                            name="cep"
-                            value={cep}
-                            {...register('cep', { required: { value: true, message: "CEP é obrigatório" } })}
-                            onChange={handleInputChange}
-                        />
-                    </label>
-                    <input type="button" value="Buscar Endereço" onClick={() => getAddress()} />
-                    {errors.cep && <p>{errors.cep.message}</p>}
-                </div>
-                <div className='form-item'>
-                    <label>
-                        <span className='label-text'>
-                            Logradouro
-                        </span>
-                        <input
-                            disabled
-                            type="text"
-                            placeholder="Logradouro"
-                            name="logradouro"
-                            value={logradouro}
-                        />
-                    </label>
-                </div>
-                <div className='form-item'>
-                    <label>
-                        <span className='label-text'>
-                            Bairro
-                        </span>
-                        <input
-                            disabled
-                            type="text"
-                            placeholder="Bairro"
-                            name="bairro"
-                            value={bairro}
-                        />
-                    </label>
-                </div>
-                <div className='form-item'>
-                    <label>
-                        <span className='label-text'>
-                            Localidade
-                        </span>
-                        <input
-                            disabled
-                            type="text"
-                            placeholder="Localidade"
-                            name="localidade"
-                            value={localidade}
-                        />
-                    </label>
-                </div>
-                <div className='form-item'>
-                    <label>
-                        <span className='label-text'>
-                            UF
-                        </span>
-                        <input
-                            disabled
-                            type="text"
-                            placeholder="UF"
-                            name="uf"
-                            value={uf}
-                        />
-                    </label>
-                </div>
-                <input type="submit" />
-            </form>
-            {fetchingCEP && <Loading />}
-            {hasAddressError && <p>Erro de endereço</p>}
-            {askCEP && <p>CEP vazio</p>}
-            {askAddress && <p>Busque o endereço pelo CEP</p>}
-            {status === 'success' && <p>Cliente cadastrado com sucesso!</p>}
-            {status === 'error' && <p>Ocorreu um erro no cadastro do cliente...</p>}
+            <div className="title-container">
+                <h1>Cadastro de Cliente</h1>
+                {status === 'success' && <Alert variant="success">Cliente cadastrado com sucesso!</Alert>}
+                {status === 'error' && <p>Ocorreu um erro no cadastro do cliente...</p>}
+                {fetchingCEP && <Loading />}
+            </div>
+            <div className="form-container">
+                <form name="register" onSubmit={handleSubmit(onSubmit)}>
+                    <div className='form-item'>
+                        <label>
+                            <span className='label-text'>
+                                Nome
+                            </span>
+                            {errors.nome && <span className="error-msg">{errors.nome.message}</span>}
+                            <input
+                                type="text"
+                                placeholder="Nome"
+                                name="nome"
+                                value={nome}
+                                {...register('nome', { required: { value: true, message: "Nome é obrigatório" } })}
+                                onChange={handleInputChange}
+                            />
+                        </label>
+                    </div>
+                    {/* {errors.nome && <span className="error-msg">{errors.nome.message}</span>} */}
+                    <div className='form-item'>
+                        <label>
+                            <span className='label-text'>
+                                Email
+                            </span>
+                            {errors.email && <span className="error-msg">{errors.email.message}</span>}
+                            <input
+                                type="text"
+                                placeholder="Email"
+                                name="email"
+                                value={email}
+                                {...register('email', { required: { value: true, message: "Email é obrigatório" } })}
+                                onChange={handleInputChange}
+                            />
+                        </label>
+                    </div>
+                    <div className='form-item'>
+                        <label>
+                            <span className='label-text'>
+                                CEP
+                            </span>
+                            {errors.cep && <span className="error-msg">{errors.cep.message}</span>}
+                            {hasAddressError && <span className="error-msg">Erro de endereço</span>}
+                            {askCEP && <span className="error-msg">Preencha um CEP válido</span>}
+                            {askAddress && <span className="error-msg">Preencha um CEP válido</span>}
+                            <input
+                                type="text"
+                                placeholder="CEP"
+                                name="cep"
+                                value={cep}
+                                {...register('cep', { required: { value: true, message: "Preencha um CEP válido" } })}
+                                onChange={handleInputChange}
+                            // onBlur={() => getAddress()}
+                            // onFocus={() => clearErrors('cep')}
+                            />
+                        </label>
+                        <Button className="btn buscar-cep" variant="secondary" size="sm" onClick={() => getAddress()}>Buscar Endereço</Button>
+                    </div>
+                    <div className='form-item'>
+                        <label>
+                            <span className='label-text'>
+                                Logradouro
+                            </span>
+                            <input
+                                disabled
+                                type="text"
+                                placeholder="Logradouro"
+                                name="logradouro"
+                                value={logradouro}
+                            />
+                        </label>
+                    </div>
+                    <div className='form-item'>
+                        <label>
+                            <span className='label-text'>
+                                Bairro
+                            </span>
+                            <input
+                                disabled
+                                type="text"
+                                placeholder="Bairro"
+                                name="bairro"
+                                value={bairro}
+                            />
+                        </label>
+                    </div>
+                    <div className='form-item'>
+                        <label>
+                            <span className='label-text'>
+                                Localidade
+                            </span>
+                            <input
+                                disabled
+                                type="text"
+                                placeholder="Localidade"
+                                name="localidade"
+                                value={localidade}
+                            />
+                        </label>
+                    </div>
+                    <div className='form-item'>
+                        <label>
+                            <span className='label-text'>
+                                UF
+                            </span>
+                            <input
+                                disabled
+                                type="text"
+                                placeholder="UF"
+                                name="uf"
+                                value={uf}
+                            />
+                        </label>
+                    </div>
+                    <div className="register-container">
+                        <Button className="btn cadastrar" variant="primary" type="submit">Cadastrar Cliente</Button>
+                    </div>
+                </form>
+            </div>
+
         </section>
     );
 }

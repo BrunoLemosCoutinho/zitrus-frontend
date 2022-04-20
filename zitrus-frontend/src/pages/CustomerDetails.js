@@ -14,7 +14,7 @@ function CustomerDetails({ match }) {
         fetch(`/api/customers/${customerId}`)
             .then((response) => response.json())
             .then((data) => {
-                setCustomer(data.customers);
+                setCustomer(data.customer);
                 setIsFetching(false);
             });
     }, []);
