@@ -31,6 +31,11 @@ function AddCustomer() {
     const handleInputChange = event => {
         const { name, value } = event.target;
         clearErrors(name);
+        if (name==='cep') {
+            console.log("AIEEE");
+            setRetrievedAddress(false);
+            resetAddressInputs();
+        }
         setFormData({
             ...formData,
             [name]: value,
@@ -131,7 +136,7 @@ function AddCustomer() {
 
     const onSubmit = async data => {
         console.log(data);
-        getAddress();
+        // getAddress();
         if (retrievedAddress) {
             saveCustomer();
         } else {
