@@ -6,7 +6,7 @@ import { Menu, Loading } from "../components";
 import fetchCEP from '../services/apiServices';
 
 function EditCustomer({ match }) {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, clearErrors } = useForm();
     const customerId = match.params.customerId;
     const [isFetching, setIsFetching] = useState(true);
     const [status, setStatus] = useState('');
@@ -30,6 +30,7 @@ function EditCustomer({ match }) {
 
     const handleInputChange = event => {
         const { name, value } = event.target;
+        clearErrors(name);
         setFormData({
             ...formData,
             [name]: value,
@@ -179,10 +180,10 @@ function EditCustomer({ match }) {
                                 <span className='label-text'>
                                     CEP
                                 </span>
-                                {/* {errors.cep && <span className="error-msg">{errors.cep.message}</span>}
+                                {errors.cep && <span className="error-msg">{errors.cep.message}</span>}
                                 {hasAddressError && <span className="error-msg">Erro de endereço</span>}
                                 {askCEP && <span className="error-msg">Preencha um CEP válido</span>}
-                                {askAddress && <span className="error-msg">Preencha um CEP válido</span>} */}
+                                {askAddress && <span className="error-msg">Preencha um CEP válido</span>}
                                 <input
                                     type="text"
                                     placeholder="CEP"
