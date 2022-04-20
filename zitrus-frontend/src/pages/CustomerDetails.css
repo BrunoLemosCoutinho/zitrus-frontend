@@ -1,3 +1,15 @@
 .customer-details th {
     width: 150px;
 }
+
+.register-container {
+    display: flex;
+    align-items: baseline;
+}
+
+
+.btn-danger {
+    margin-top: 10px;
+    width: 200px;
+    margin-left: 10px;
+}

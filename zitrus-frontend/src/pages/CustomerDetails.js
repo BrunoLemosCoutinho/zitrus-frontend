@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
-import { Link } from "react-router-dom";
+import Alert from 'react-bootstrap/Alert'
+import { Link, useHistory } from "react-router-dom";
 import { Loading, Menu } from "../components";
 import './CustomerDetails.css';
 
 function CustomerDetails({ match }) {
+    const history = useHistory();
     const customerId = match.params.customerId;
     const [customer, setCustomer] = useState();
     const [isFetching, setIsFetching] = useState(true);
+    const [status, setStatus] = useState('');
 
     useEffect(() => {
         fetch(`/api/customers/${customerId}`)
@@ -19,10 +22,33 @@ function CustomerDetails({ match }) {
             });
     }, []);
 
+
+    const handleDelete = (customerId) => {
+        console.log("DELETE");
+        console.log(customerId);
+        fetch(`/api/customers/${customerId}`, {
+            method: 'DELETE',
+        })
+        .then(() => {
+            setTimeout(() => {
+                setStatus('delete');
+                setTimeout(() => history.push('/clientes'), 3000);
+            }, 3000);
+        })
+        .catch(error => {
+            console.log(error.message);
+            setStatus('error');
+        });
+    }
+
+
     return (
         <section>
             <Menu />
-            <h1>Detalhes do Cliente</h1>
+            <div className="title-container">
+                <h1>Detalhes do Cliente</h1>
+                {status === 'delete' && <Alert variant="danger">Cliente excluído!</Alert>}
+            </div>
             {isFetching && <Loading />}
             {!isFetching &&
                 <div className="customer-details-container">
@@ -62,7 +88,10 @@ function CustomerDetails({ match }) {
                             </tr>
                         </tbody>
                     </Table>
-                    <Link to={`/editar-cliente/${customer.id}`}><Button variant="secondary">EDITAR</Button></Link>
+                    <div className="register-container">
+                        <Link to={`/editar-cliente/${customer.id}`}><Button variant="secondary">EDITAR</Button></Link>
+                        <Button className="btn excluir" onClick={() => handleDelete(customer.id)} variant="danger">EXCLUIR</Button>
+                    </div>
                 </div>
             }
         </section>
