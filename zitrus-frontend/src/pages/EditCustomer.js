@@ -119,6 +119,7 @@ function EditCustomer({ match }) {
 
     const onSubmit = async data => {
         console.log(data);
+        getAddress();
         if (retrievedAddress) {
             saveCustomer();
         } else {
@@ -223,6 +224,7 @@ function EditCustomer({ match }) {
                                 <span className='label-text'>
                                     Logradouro
                                 </span>
+                                {hasAddressError && <span className="error-msg">Erro de endereço</span>}
                                 <input
                                     disabled
                                     type="text"
@@ -237,6 +239,7 @@ function EditCustomer({ match }) {
                                 <span className='label-text'>
                                     Bairro
                                 </span>
+                                {hasAddressError && <span className="error-msg">Erro de endereço</span>}
                                 <input
                                     disabled
                                     type="text"
@@ -251,6 +254,7 @@ function EditCustomer({ match }) {
                                 <span className='label-text'>
                                     Localidade
                                 </span>
+                                {hasAddressError && <span className="error-msg">Erro de endereço</span>}
                                 <input
                                     disabled
                                     type="text"
@@ -265,6 +269,7 @@ function EditCustomer({ match }) {
                                 <span className='label-text'>
                                     UF
                                 </span>
+                                {hasAddressError && <span className="error-msg">Erro de endereço</span>}
                                 <input
                                     disabled
                                     type="text"

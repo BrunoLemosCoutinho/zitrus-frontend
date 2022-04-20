@@ -131,6 +131,7 @@ function AddCustomer() {
 
     const onSubmit = async data => {
         console.log(data);
+        getAddress();
         if (retrievedAddress) {
             saveCustomer();
         } else {
@@ -189,10 +190,8 @@ function AddCustomer() {
                             <span className='label-text'>
                                 CEP
                             </span>
-                            {errors.cep && <span className="error-msg">{errors.cep.message}</span>}
-                            {hasAddressError && <span className="error-msg">Erro de endereço</span>}
-                            {askCEP && <span className="error-msg">Preencha um CEP válido</span>}
-                            {askAddress && <span className="error-msg">Preencha um CEP válido</span>}
+                            {errors.cep && <p className="error-msg">{errors.cep.message}</p>}
+                            {(askCEP || askAddress) && <p className="error-msg">Preencha um CEP válido</p>}
                             <input
                                 type="text"
                                 placeholder="CEP"
@@ -218,6 +217,7 @@ function AddCustomer() {
                             <span className='label-text'>
                                 Logradouro
                             </span>
+                            {hasAddressError && <p className="error-msg">Erro de endereço</p>}
                             <input
                                 disabled
                                 type="text"
@@ -232,6 +232,7 @@ function AddCustomer() {
                             <span className='label-text'>
                                 Bairro
                             </span>
+                            {hasAddressError && <p className="error-msg">Erro de endereço</p>}
                             <input
                                 disabled
                                 type="text"
@@ -246,6 +247,7 @@ function AddCustomer() {
                             <span className='label-text'>
                                 Localidade
                             </span>
+                            {hasAddressError && <p className="error-msg">Erro de endereço</p>}
                             <input
                                 disabled
                                 type="text"
@@ -260,6 +262,7 @@ function AddCustomer() {
                             <span className='label-text'>
                                 UF
                             </span>
+                            {hasAddressError && <p className="error-msg">Erro de endereço</p>}
                             <input
                                 disabled
                                 type="text"
