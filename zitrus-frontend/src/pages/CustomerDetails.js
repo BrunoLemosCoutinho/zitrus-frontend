@@ -89,6 +89,7 @@ function CustomerDetails({ match }) {
                     <div className="register-container">
                         <Link to={`/editar-cliente/${customer.id}`}><Button variant="secondary">EDITAR</Button></Link>
                         <Button className="btn detalhes-excluir" onClick={() => handleDelete(customer.id)} variant="danger">EXCLUIR</Button>
+                        <Button className="btn voltar" onClick={() => history.push('/clientes')} variant="link">Voltar</Button>
                     </div>
                 </div>
             }
