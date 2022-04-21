@@ -17,8 +17,6 @@ function ListCustomers() {
         const getCustomers = async () => {
             const response = await fetch('/api/customers');
             const result = await response.json();
-            console.log("getCustomers", result);
-            console.log("result.customers", result.customers);
             setCustomers([...result.customers]);
             setIsFetching(false);
         }
@@ -27,8 +25,6 @@ function ListCustomers() {
     }, [updateState]);
 
     const handleDelete = (customerId) => {
-        console.log("DELETE");
-        console.log(customerId);
         fetch(`/api/customers/${customerId}`, {
             method: 'DELETE',
         }).then(() => forceUpdate());

@@ -20,16 +20,15 @@ function EditCustomer({ match }) {
     const [fetchingCEP, setFetchingCEP] = useState(false);
     const [formData, setFormData] = useState();
 
-    // const { nome, email, cep, logradouro, bairro, localidade, uf } = formData;
 
     useEffect(() => {
         fetch(`/api/customers/${customerId}`)
             .then((response) => response.json())
             .then((data) => {
-                setFormData(data.customer);
+                setFormData(data.customers);
                 setIsFetching(false);
             });
-    }, []);
+    }, [customerId]);
 
     const handleInputChange = event => {
         const { name, value } = event.target;
@@ -88,11 +87,9 @@ function EditCustomer({ match }) {
         setFetchingCEP(false);
         if (isValidAddress(address)) {
             setHasAddressError(false);
-            console.log(address);
             fillAddressInputs(address);
             setRetrievedAddress(true);
         } else {
-            console.log('erro de cep', address);
             setHasAddressError(true);
             resetAddressInputs();
         }
@@ -100,8 +97,6 @@ function EditCustomer({ match }) {
 
 
     const saveCustomer = () => {
-        console.log("saveCustomer");
-        console.log(formData);
         fetch(`/api/customers/${formData.id}`, {
             method: 'PATCH',
             body: JSON.stringify({ ...formData })
@@ -111,14 +106,12 @@ function EditCustomer({ match }) {
                 setTimeout(() => setStatus(''), 3000);
             })
             .catch(error => {
-                console.log(error.message);
                 setStatus('error');
             });
     }
 
 
     const onSubmit = async data => {
-        console.log(data);
         getAddress();
         if (retrievedAddress) {
             saveCustomer();
@@ -128,28 +121,20 @@ function EditCustomer({ match }) {
 
     }
 
-    const getCustomers = async () => {
-        const requestResponse = await fetch('/api/customers');
-        const data = await requestResponse.json();
-        console.log("getCustomers", data);
-    }
 
     const handleDelete = (customerId) => {
-        console.log("DELETE");
-        console.log(customerId);
         fetch(`/api/customers/${customerId}`, {
             method: 'DELETE',
         })
-        .then(() => {
-            setTimeout(() => {
-                setStatus('delete');
-                setTimeout(() => history.push('/clientes'), 3000);
-            }, 3000);
-        })
-        .catch(error => {
-            console.log(error.message);
-            setStatus('error');
-        });
+            .then(() => {
+                setTimeout(() => {
+                    setStatus('delete');
+                    setTimeout(() => history.push('/clientes'), 3000);
+                }, 3000);
+            })
+            .catch(error => {
+                setStatus('error');
+            });
     }
 
 

@@ -4,12 +4,10 @@
 }
 
 .form-container {
-    /* border: 2px dotted violet; */
     height: 500px;
 }
 
 form {
-    /* border: 1px solid black; */
     border-radius: 5px;
     display: flex;
     flex-direction: column;

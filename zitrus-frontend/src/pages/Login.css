@@ -9,13 +9,11 @@ h1 {
 }
 
 .login-container {
-    /* border: 2px solid blueviolet; */
     border-radius: 2px;
     width: 360px;
     height: 400px;
     margin: 0 auto;
     padding: 20px;
-    /* box-shadow: 15px -10px teal; */
     box-shadow: inset 0 0 1em rgb(230, 238, 255), 0 0 1em rgb(108, 119, 143);
     
 }

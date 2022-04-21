@@ -31,8 +31,7 @@ function AddCustomer() {
     const handleInputChange = event => {
         const { name, value } = event.target;
         clearErrors(name);
-        if (name==='cep') {
-            console.log("AIEEE");
+        if (name === 'cep') {
             setRetrievedAddress(false);
             resetAddressInputs();
         }
@@ -102,11 +101,9 @@ function AddCustomer() {
         setFetchingCEP(false);
         if (isValidAddress(address)) {
             setHasAddressError(false);
-            console.log(address);
             fillAddressInputs(address);
             setRetrievedAddress(true);
         } else {
-            console.log('erro de cep', address);
             setHasAddressError(true);
             resetAddressInputs();
         }
@@ -114,8 +111,6 @@ function AddCustomer() {
 
 
     const saveCustomer = () => {
-        console.log("saveCustomer");
-        console.log(formData);
         fetch('/api/customers', {
             method: 'POST',
             body: JSON.stringify({ ...formData })
@@ -128,14 +123,12 @@ function AddCustomer() {
                 }, 3000);
             })
             .catch(error => {
-                console.log(error.message);
                 setStatus('error');
             });
     }
 
 
     const onSubmit = async data => {
-        console.log(data);
         // getAddress();
         if (retrievedAddress) {
             saveCustomer();

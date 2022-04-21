@@ -9,7 +9,7 @@ import './CustomerDetails.css';
 function CustomerDetails({ match }) {
     const history = useHistory();
     const customerId = match.params.customerId;
-    const [customer, setCustomer] = useState();
+    const [customer, setCustomer] = useState({});
     const [isFetching, setIsFetching] = useState(true);
     const [status, setStatus] = useState('');
 
@@ -17,28 +17,26 @@ function CustomerDetails({ match }) {
         fetch(`/api/customers/${customerId}`)
             .then((response) => response.json())
             .then((data) => {
-                setCustomer(data.customer);
+                console.log("data edit", data);
+                setCustomer(data.customers);
                 setIsFetching(false);
             });
-    }, []);
+    }, [customerId]);
 
 
     const handleDelete = (customerId) => {
-        console.log("DELETE");
-        console.log(customerId);
         fetch(`/api/customers/${customerId}`, {
             method: 'DELETE',
         })
-        .then(() => {
-            setTimeout(() => {
-                setStatus('delete');
-                setTimeout(() => history.push('/clientes'), 3000);
-            }, 3000);
-        })
-        .catch(error => {
-            console.log(error.message);
-            setStatus('error');
-        });
+            .then(() => {
+                setTimeout(() => {
+                    setStatus('delete');
+                    setTimeout(() => history.push('/clientes'), 3000);
+                }, 3000);
+            })
+            .catch(error => {
+                setStatus('error');
+            });
     }
 
 

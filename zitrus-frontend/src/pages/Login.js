@@ -28,10 +28,8 @@ function Login() {
         });
     }
 
-    const isValidLogin = ({inputUser, inputPassword}) => {
-        console.log("validateLogin", inputUser, inputPassword);
-        console.log("certos: ", correctUser, correctPassword);
-        if (inputUser === correctUser && inputPassword === correctPassword ) {
+    const isValidLogin = ({ inputUser, inputPassword }) => {
+        if (inputUser === correctUser && inputPassword === correctPassword) {
             return true
         }
         return false;
@@ -39,16 +37,11 @@ function Login() {
 
     const onSubmit = async (data, event) => {
         event.preventDefault();
-        console.log(data);
         if (isValidLogin(data)) {
-            console.log("DEU BOM");
             history.push('/clientes');
         } else {
-            console.log("nao");
             setErrorLogin(true);
         }
-        
-
     }
 
 
