@@ -9,7 +9,7 @@ import './EditCustomer.css';
 
 function EditCustomer({ match }) {
     const history = useHistory();
-    const { register, handleSubmit, formState: { errors }, clearErrors } = useForm();
+    const { register, handleSubmit, formState: { errors }, clearErrors, setValue } = useForm();
     const customerId = match.params.customerId;
     const [isFetching, setIsFetching] = useState(true);
     const [status, setStatus] = useState('');
@@ -18,7 +18,15 @@ function EditCustomer({ match }) {
     const [retrievedAddress, setRetrievedAddress] = useState(true);
     const [hasAddressError, setHasAddressError] = useState(false);
     const [fetchingCEP, setFetchingCEP] = useState(false);
-    const [formData, setFormData] = useState();
+    const [formData, setFormData] = useState({
+        nome: '',
+        email: '',
+        cep: '',
+        logradouro: '',
+        bairro: '',
+        localidade: '',
+        uf: '',
+    });
 
 
     useEffect(() => {
@@ -29,6 +37,12 @@ function EditCustomer({ match }) {
                 setIsFetching(false);
             });
     }, [customerId]);
+
+    useEffect(() => {
+        setValue('nome', formData.nome);
+        setValue('email', formData.email);
+        setValue('cep', formData.cep);
+    }, [formData]);
 
     const handleInputChange = event => {
         const { name, value } = event.target;
