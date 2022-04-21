@@ -18,6 +18,7 @@ function Menu() {
                         <Nav className="me-auto">
                             <Nav.Link onClick={() => history.push('/clientes')}>Clientes</Nav.Link>
                             <Nav.Link href="/cadastro-cliente">Cadastrar Cliente</Nav.Link>
+                            <Nav.Link href="/">Sair</Nav.Link>
                         </Nav>
                     </Container>
                 </Navbar>
