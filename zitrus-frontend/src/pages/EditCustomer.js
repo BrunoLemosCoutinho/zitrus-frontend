@@ -154,7 +154,7 @@ function EditCustomer({ match }) {
 
 
     return (
-        <section className='cadastro-cliente'>
+        <section className='edit-customer'>
             <Menu />
             <div className="title-container">
                 <h1>Editar Cliente</h1>

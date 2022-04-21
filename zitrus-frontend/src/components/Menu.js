@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import Container from 'react-bootstrap/Container'
@@ -7,6 +7,8 @@ import './Menu.css';
 
 
 function Menu() {
+    const history = useHistory();
+
     return (
         <header>
             <nav>
@@ -14,7 +16,7 @@ function Menu() {
                     <Container>
                         <Navbar.Brand href="#">Loja do Arnaldo</Navbar.Brand>
                         <Nav className="me-auto">
-                            <Nav.Link href="/clientes">Clientes</Nav.Link>
+                            <Nav.Link onClick={() => history.push('/clientes')}>Clientes</Nav.Link>
                             <Nav.Link href="/cadastro-cliente">Cadastrar Cliente</Nav.Link>
                         </Nav>
                     </Container>
