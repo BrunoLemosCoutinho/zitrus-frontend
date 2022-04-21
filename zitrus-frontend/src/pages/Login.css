@@ -1,13 +1,13 @@
 .login {
     height: 100vh;
-    background-color: yellow;
     padding-top: 100px;
     background: rgb(141,194,111);
     background: linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(233, 240, 255) 50%);
 }
 
 .login-container {
-    border: 2px dotted red;
+    border: 2px solid blueviolet;
+    border-radius: 2px;
     width: 360px;
     height: 400px;
     margin: 0 auto;
@@ -17,7 +17,6 @@
 
 .login-form {
     display: block;
-    border: 2px dotted blue;
     max-width: 360px;
     height: 100%;
     margin: 0 auto 100px;
@@ -29,4 +28,17 @@
     margin: 0 0 15px;
     padding: 15px;
     background-color: #f2f2f2;
+}
+
+.error-validation {
+    height: 35px;
+    margin-bottom: 15px;
+}
+
+.alert {
+    margin: 0 auto;
+}
+
+.button-login {
+    margin-bottom: 15px;
 }

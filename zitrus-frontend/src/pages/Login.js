@@ -1,28 +1,54 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import './Login.css';
 
 function Login() {
+    const history = useHistory();
     const { register, handleSubmit, formState: { errors }, clearErrors } = useForm();
+    const [errorLogin, setErrorLogin] = useState(false);
     const [formData, setFormData] = useState({
-        user: '',
-        password: '',
+        inputUser: '',
+        inputPassword: '',
     });
 
-    const { user, password } = formData;
+    const { inputUser, inputPassword } = formData;
+
+    const correctUser = 'zitrino';
+    const correctPassword = 'venhaserfeliz';
 
     const handleInputChange = event => {
         const { name, value } = event.target;
         clearErrors(name);
+        setErrorLogin(false);
         setFormData({
             ...formData,
             [name]: value,
         });
     }
 
-    const onSubmit = async data => {
+    const isValidLogin = ({inputUser, inputPassword}) => {
+        console.log("validateLogin", inputUser, inputPassword);
+        console.log("certos: ", correctUser, correctPassword);
+        if (inputUser === correctUser && inputPassword === correctPassword ) {
+            return true
+        }
+        return false;
+    }
+
+    const onSubmit = async (data, event) => {
+        event.preventDefault();
         console.log(data);
+        if (isValidLogin(data)) {
+            console.log("DEU BOM");
+            history.push('/clientes');
+        } else {
+            console.log("nao");
+            setErrorLogin(true);
+        }
+        
+
     }
 
 
@@ -31,34 +57,37 @@ function Login() {
             <div className="login-container">
                 <form
                     className="login-form"
-                    name="register" onSubmit={handleSubmit(onSubmit)}
+                    name="register"
+                    onSubmit={handleSubmit(onSubmit)}
                 >
                     <input
                         className="login-input-name"
                         type="text"
                         placeholder="Usuário"
-                        name="user"
-                        value={user}
-                        {...register('user', { required: { value: true, message: "Nome do Usuário é obrigatório" } })}
+                        name="inputUser"
+                        value={inputUser}
+                        {...register('inputUser', { required: { value: true, message: "Nome do Usuário é obrigatório" } })}
                         onChange={handleInputChange}
                     />
                     <div className="error-validation">
-                        {errors.user && <p className="error-msg">{errors.user.message}</p>}
+                        {errors.inputUser && <p className="error-msg">{errors.inputUser.message}</p>}
                     </div>
                     <input
                         className="login-input-password"
                         type="password"
                         placeholder="Senha"
-                        name="password"
-                        value={password}
-                        {...register('password', { required: { value: true, message: "Senha é obrigatória" } })}
+                        name="inputPassword"
+                        value={inputPassword}
+                        {...register('inputPassword', { required: { value: true, message: "Senha é obrigatória" } })}
                         onChange={handleInputChange}
                     />
                     <div className="error-validation">
-                        {errors.password && <p className="error-msg">{errors.password.message}</p>}
+                        {errors.inputPassword && <p className="error-msg">{errors.inputPassword.message}</p>}
                     </div>
                     <Button className="button-login" variant="primary" type="submit">LOGIN</Button>
-                    <div className="error-login"></div>
+                    <div className="error-login">
+                        {errorLogin && <p className="error-msg">Usuário e / ou Senha inválidos</p>}
+                    </div>
                 </form>
             </div>
         </section>
