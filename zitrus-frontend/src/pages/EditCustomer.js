@@ -137,6 +137,12 @@ function EditCustomer({ match }) {
             });
     }
 
+    const handleCepChange = () => {
+        resetAddressInputs();
+        setRetrievedAddress(false);
+        console.log("digitando em cep porra");
+    }
+
 
     return (
         <section className='edit-customer'>
@@ -190,8 +196,6 @@ function EditCustomer({ match }) {
                                     CEP
                                 </span>
                                 {errors.cep && <span className="error-msg">{errors.cep.message}</span>}
-                                {hasAddressError && <span className="error-msg">Erro de endereço</span>}
-                                {askCEP && <span className="error-msg">Preencha um CEP válido</span>}
                                 {askAddress && <span className="error-msg">Preencha um CEP válido</span>}
                                 <input
                                     type="text"
@@ -200,6 +204,7 @@ function EditCustomer({ match }) {
                                     value={formData.cep}
                                     {...register('cep', { required: { value: true, message: "CEP é obrigatório" } })}
                                     onChange={handleInputChange}
+                                    onKeyDown={handleCepChange}
                                 />
                             </label>
                             <Button className="btn buscar-cep" variant="secondary" size="sm" onClick={() => getAddress()}>Buscar Endereço</Button>

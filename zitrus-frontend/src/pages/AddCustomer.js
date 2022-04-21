@@ -31,16 +31,19 @@ function AddCustomer() {
     const handleInputChange = event => {
         const { name, value } = event.target;
         clearErrors(name);
-        if (name === 'cep') {
-            setRetrievedAddress(false);
-            resetAddressInputs();
-        }
+        
         setFormData({
             ...formData,
             [name]: value,
         });
+
     }
 
+    const handleCepChange = () => {
+        resetAddressInputs();
+        setRetrievedAddress(false);
+        console.log("digitando em cep porra");
+    }
 
     const fillAddressInputs = address => {
         setFormData({
@@ -189,14 +192,15 @@ function AddCustomer() {
                                 CEP
                             </span>
                             {errors.cep && <p className="error-msg">{errors.cep.message}</p>}
-                            {(askCEP || askAddress) && <p className="error-msg">Preencha um CEP válido</p>}
+                            {(askAddress) && <p className="error-msg">Busque um CEP válido para preencher o endereço</p>}
                             <input
                                 type="text"
                                 placeholder="CEP"
                                 name="cep"
                                 value={cep}
-                                {...register('cep', { required: { value: true, message: "Preencha um CEP válido" } })}
+                                {...register('cep', { required: { value: true, message: "Busque um CEP válido para preencher o endereço" } })}
                                 onChange={handleInputChange}
+                                onKeyDown={handleCepChange}
                             // onBlur={() => getAddress()}
                             // onFocus={() => clearErrors('cep')}
                             />
