@@ -65,6 +65,10 @@ input[name="cep"] {
     margin-left: 10px;
 }
 
+.cancelar {
+    width: 200px;
+    margin-left: 10px;
+}
 
 .btn.buscar-cep {
     width: 300px;

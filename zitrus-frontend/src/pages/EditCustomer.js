@@ -284,8 +284,9 @@ function EditCustomer({ match }) {
                             </label>
                         </div>
                         <div className="register-container">
-                            <Button className="btn cadastrar" variant="primary" type="submit">SALVAR</Button>
+                            <Button className="btn cadastrar" variant="success" type="submit">SALVAR</Button>
                             <Button className="btn excluir" onClick={() => handleDelete(formData.id)} variant="danger">EXCLUIR</Button>
+                            <Button className="btn cancelar" onClick={() => history.push('/clientes')} variant="warning">CANCELAR</Button>
                         </div>
                     </form>
                 </div>
