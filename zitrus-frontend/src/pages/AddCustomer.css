@@ -1,3 +1,8 @@
+.cadastro-cliente {
+    height: 100vh;
+    background: linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(233, 240, 255) 50%);
+}
+
 .form-container {
     /* border: 2px dotted violet; */
     height: 500px;

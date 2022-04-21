@@ -43,7 +43,7 @@ function CustomerDetails({ match }) {
 
 
     return (
-        <section>
+        <section className="details">
             <Menu />
             <div className="title-container">
                 <h1>Detalhes do Cliente</h1>

@@ -35,7 +35,7 @@ function ListCustomers() {
     }
 
     return (
-        <section>
+        <section className="customers-list">
             <Menu />
             <h1>Clientes</h1>
             {isFetching && <Loading />}
