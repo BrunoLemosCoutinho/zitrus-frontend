@@ -55,6 +55,7 @@ function Login() {
     return (
         <section className="login">
             <div className="login-container">
+                <h1>Loja do Arnaldo</h1>
                 <form
                     className="login-form"
                     name="register"
