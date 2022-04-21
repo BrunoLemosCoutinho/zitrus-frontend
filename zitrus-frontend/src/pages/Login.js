@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
@@ -6,7 +6,7 @@ import './Login.css';
 
 function Login() {
     const history = useHistory();
-    const { register, handleSubmit, formState: { errors }, clearErrors } = useForm();
+    const { register, handleSubmit, formState: { errors }, clearErrors, setValue } = useForm();
     const [errorLogin, setErrorLogin] = useState(false);
     const [formData, setFormData] = useState({
         inputUser: '',
@@ -18,6 +18,12 @@ function Login() {
     const correctUser = 'zitrino';
     const correctPassword = 'venhaserfeliz';
 
+    useEffect(() => {
+        setValue('inputUser', inputUser);
+        setValue('inputPassword', inputPassword);
+    }, [formData]);
+
+    
     const handleInputChange = event => {
         const { name, value } = event.target;
         clearErrors(name);
