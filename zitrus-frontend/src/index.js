@@ -5,9 +5,12 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { makeServer } from './server';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-makeServer({ environment: "development" });
+if (process.env.NODE_ENV === "development") {
+  makeServer({ environment: "development" })
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

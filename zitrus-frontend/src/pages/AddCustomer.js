@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert'
 import { useForm } from 'react-hook-form';
 import { Loading } from '../components';
 import fetchCEP from '../services/apiServices';
+import { Menu } from '../components';
 import './AddCustomer.css';
 
 
 function AddCustomer() {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, clearErrors, setValue } = useForm();
     const [status, setStatus] = useState('');
     const [askCEP, setAskCEP] = useState(false);
+    const [askAddress, setAskAddress] = useState(false);
+    const [retrievedAddress, setRetrievedAddress] = useState(false);
     const [hasAddressError, setHasAddressError] = useState(false);
     const [fetchingCEP, setFetchingCEP] = useState(false);
     const [formData, setFormData] = useState({
@@ -21,17 +26,30 @@ function AddCustomer() {
         uf: '',
     });
 
-    const { logradouro, bairro, localidade, uf } = formData;
+    const { nome, email, cep, logradouro, bairro, localidade, uf } = formData;
+
+    useEffect(() => {
+        setValue('nome', nome);
+        setValue('email', email);
+        setValue('cep', cep);
+    }, [formData]);
 
     const handleInputChange = event => {
         const { name, value } = event.target;
+        clearErrors(name);
+        
         setFormData({
             ...formData,
             [name]: value,
         });
+
     }
 
-    
+    const handleCepChange = () => {
+        resetAddressInputs();
+        setRetrievedAddress(false);
+        console.log("digitando em cep porra");
+    }
 
     const fillAddressInputs = address => {
         setFormData({
@@ -43,6 +61,7 @@ function AddCustomer() {
         });
     }
 
+
     const resetAddressInputs = () => {
         setFormData({
             ...formData,
@@ -52,6 +71,19 @@ function AddCustomer() {
             uf: '',
         });
     }
+
+    const resetAllInputs = () => {
+        setFormData({
+            nome: '',
+            email: '',
+            cep: '',
+            logradouro: '',
+            bairro: '',
+            localidade: '',
+            uf: '',
+        });
+    }
+
 
     const isValidAddress = address => {
         if (address.error) return false;
@@ -63,6 +95,7 @@ function AddCustomer() {
         return formData.cep.length === 0;
     }
 
+
     const getAddress = async () => {
         if (isCEPEmpty()) {
             setAskCEP(true);
@@ -71,130 +104,188 @@ function AddCustomer() {
             setAskCEP(false);
         }
         setFetchingCEP(true);
+        setAskAddress(false);
         const address = await fetchCEP(formData.cep);
 
         setFetchingCEP(false);
-        if (!isValidAddress(address)) {
-            console.log('erro de cep', address);
+        if (isValidAddress(address)) {
+            setHasAddressError(false);
+            fillAddressInputs(address);
+            setRetrievedAddress(true);
+        } else {
             setHasAddressError(true);
             resetAddressInputs();
-        } else {
-            setHasAddressError(false);
-            console.log(address);
-            fillAddressInputs(address);
         }
     }
 
-    const pegaClientes = () => {
-        fetch('/api/customers')
-            .then(response => response.json())
-            .then(json => console.log(json));
-    }
+
     const saveCustomer = () => {
-        console.log("saveCustomer");
-        console.log(formData);
-        fetch('/api/salva', {
+        fetch('/api/customers', {
             method: 'POST',
-            body: JSON.stringify({...formData})
+            body: JSON.stringify({ ...formData })
         })
             .then(() => setStatus('success'))
+            .then(() => {
+                setTimeout(() => {
+                    resetAllInputs();
+                    setStatus('');
+                }, 3000);
+            })
             .catch(error => {
-                console.log(error.message);
                 setStatus('error');
             });
     }
 
 
     const onSubmit = async data => {
-        console.log(data);
-        saveCustomer();
+        // getAddress();
+        if (retrievedAddress) {
+            saveCustomer();
+        } else {
+            setAskAddress(true);
+        }
 
     }
 
+
     return (
-        <section className='cadastrar-usuario'>
-            <h1>Cadastro de Usuário</h1>
-            <form name="register" onSubmit={ handleSubmit(onSubmit) }>
-                <label>
-                    Nome
-                    <input
-                        type="text"
-                        placeholder="Nome"
-                        name="nome"
-                        onKeyUp={ (event) => handleInputChange(event) }
-                        { ...register('nome', {required: {value: true, message: "Nome é obrigatório"}}) }
-                    />
-                </label>
-                { errors.nome && <p>{errors.nome.message}</p> }
-                <label>
-                    Email
-                    <input
-                        type="text"
-                        placeholder="Email"
-                        name="email"
-                        onKeyUp={ (event) => handleInputChange(event) }
-                        { ...register('email', { required: {value: true, message: "Email é obrigatório"}}) }
-                    />
-                </label>
-                { errors.email && <p>{errors.email.message}</p> }
-                <label>
-                    CEP
-                    <input
-                        type="text"
-                        placeholder="CEP"
-                        name="cep"
-                        onKeyUp={ (event) => handleInputChange(event) }
-                        { ...register('cep', { required: {value: true, message: "CEP é obrigatório"}}) }
-                    />
-                </label>
-                <input type="button" value="Buscar Endereço" onClick={ () => getAddress()}/>
-                { errors.cep && <p>{errors.cep.message}</p> }
-                <label>
-                    Logradouro
-                    <input
-                        disabled
-                        type="text"
-                        placeholder="Logradouro"
-                        name="logradouro"
-                        value={ logradouro }
-                    />
-                </label>
-                <label>
-                    Bairro
-                    <input
-                        disabled
-                        type="text"
-                        placeholder="Bairro"
-                        name="bairro"
-                        value={ bairro }
-                    />
-                </label>
-                <label>
-                    Localidade
-                    <input
-                        disabled
-                        type="text"
-                        placeholder="Localidade"
-                        name="localidade"
-                        value={ localidade }
-                    />
-                </label>
-                <label>
-                    UF
-                    <input
-                        disabled
-                        type="text"
-                        placeholder="UF"
-                        name="uf"
-                        value={ uf }
-                    />
-                </label>
-                <input type="submit" />
-            </form>
-            { fetchingCEP && <Loading /> }
-            { hasAddressError && <p>Erro de endereço</p> }
-            { askCEP && <p>CEP vazio</p> }
-            <button onClick={() => pegaClientes()}>Pega clientes</button>
+        <section className='cadastro-cliente'>
+            <Menu />
+            <div className="title-container">
+                <h1>Cadastro de Cliente</h1>
+                {status === 'success' && <Alert variant="success">Cliente cadastrado com sucesso!</Alert>}
+                {status === 'error' && <p>Ocorreu um erro no cadastro do cliente...</p>}
+                {fetchingCEP && <Loading />}
+            </div>
+            <div className="form-container">
+                <form name="register" onSubmit={handleSubmit(onSubmit)}>
+                    <div className='form-item'>
+                        <label>
+                            <span className='label-text'>
+                                Nome
+                            </span>
+                            {errors.nome && <span className="error-msg">{errors.nome.message}</span>}
+                            <input
+                                type="text"
+                                placeholder="Nome"
+                                name="nome"
+                                value={nome}
+                                {...register('nome', { required: { value: true, message: "Nome é obrigatório" } })}
+                                onChange={handleInputChange}
+                            />
+                        </label>
+                    </div>
+                    {/* {errors.nome && <span className="error-msg">{errors.nome.message}</span>} */}
+                    <div className='form-item'>
+                        <label>
+                            <span className='label-text'>
+                                Email
+                            </span>
+                            {errors.email && <span className="error-msg">{errors.email.message}</span>}
+                            <input
+                                type="text"
+                                placeholder="Email"
+                                name="email"
+                                value={email}
+                                {...register('email', { required: { value: true, message: "Email é obrigatório" } })}
+                                onChange={handleInputChange}
+                            />
+                        </label>
+                    </div>
+                    <div className='form-item'>
+                        <label>
+                            <span className='label-text'>
+                                CEP
+                            </span>
+                            {errors.cep && <p className="error-msg">{errors.cep.message}</p>}
+                            {(askAddress) && <p className="error-msg">Busque um CEP válido para preencher o endereço</p>}
+                            <input
+                                type="text"
+                                placeholder="CEP"
+                                name="cep"
+                                value={cep}
+                                {...register('cep', { required: { value: true, message: "Busque um CEP válido para preencher o endereço" } })}
+                                onChange={handleInputChange}
+                                onKeyDown={handleCepChange}
+                            // onBlur={() => getAddress()}
+                            // onFocus={() => clearErrors('cep')}
+                            />
+                        </label>
+                        <Button
+                            className="btn buscar-cep"
+                            variant="secondary"
+                            size="sm"
+                            onClick={() => getAddress()}
+                        >
+                            BUSCAR ENDEREÇO
+                        </Button>
+                    </div>
+                    <div className='form-item'>
+                        <label>
+                            <span className='label-text'>
+                                Logradouro
+                            </span>
+                            {hasAddressError && <p className="error-msg">Erro de endereço</p>}
+                            <input
+                                disabled
+                                type="text"
+                                placeholder="Logradouro"
+                                name="logradouro"
+                                value={logradouro}
+                            />
+                        </label>
+                    </div>
+                    <div className='form-item'>
+                        <label>
+                            <span className='label-text'>
+                                Bairro
+                            </span>
+                            {hasAddressError && <p className="error-msg">Erro de endereço</p>}
+                            <input
+                                disabled
+                                type="text"
+                                placeholder="Bairro"
+                                name="bairro"
+                                value={bairro}
+                            />
+                        </label>
+                    </div>
+                    <div className='form-item'>
+                        <label>
+                            <span className='label-text'>
+                                Localidade
+                            </span>
+                            {hasAddressError && <p className="error-msg">Erro de endereço</p>}
+                            <input
+                                disabled
+                                type="text"
+                                placeholder="Localidade"
+                                name="localidade"
+                                value={localidade}
+                            />
+                        </label>
+                    </div>
+                    <div className='form-item'>
+                        <label>
+                            <span className='label-text'>
+                                UF
+                            </span>
+                            {hasAddressError && <p className="error-msg">Erro de endereço</p>}
+                            <input
+                                disabled
+                                type="text"
+                                placeholder="UF"
+                                name="uf"
+                                value={uf}
+                            />
+                        </label>
+                    </div>
+                    <div className="register-container">
+                        <Button className="btn cadastrar" variant="primary" type="submit">CADASTRAR CLIENTE</Button>
+                    </div>
+                </form>
+            </div>
+
         </section>
     );
 }
