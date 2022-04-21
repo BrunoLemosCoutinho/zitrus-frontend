@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert'
 import { useForm } from 'react-hook-form';
@@ -9,7 +9,7 @@ import './AddCustomer.css';
 
 
 function AddCustomer() {
-    const { register, handleSubmit, formState: { errors }, clearErrors } = useForm();
+    const { register, handleSubmit, formState: { errors }, clearErrors, setValue } = useForm();
     const [status, setStatus] = useState('');
     const [askCEP, setAskCEP] = useState(false);
     const [askAddress, setAskAddress] = useState(false);
@@ -27,6 +27,12 @@ function AddCustomer() {
     });
 
     const { nome, email, cep, logradouro, bairro, localidade, uf } = formData;
+
+    useEffect(() => {
+        setValue('nome', nome);
+        setValue('email', email);
+        setValue('cep', cep);
+    }, [formData]);
 
     const handleInputChange = event => {
         const { name, value } = event.target;
