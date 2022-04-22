@@ -48,7 +48,6 @@ function AddCustomer() {
     const handleCepChange = () => {
         resetAddressInputs();
         setRetrievedAddress(false);
-        console.log("digitando em cep porra");
     }
 
     const fillAddressInputs = address => {
