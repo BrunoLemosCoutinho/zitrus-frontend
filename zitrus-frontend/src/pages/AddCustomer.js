@@ -11,8 +11,8 @@ import './AddCustomer.css';
 function AddCustomer() {
     const { register, handleSubmit, formState: { errors }, clearErrors, setValue } = useForm();
     const [status, setStatus] = useState('');
-    const [askCEP, setAskCEP] = useState(false);
     const [askAddress, setAskAddress] = useState(false);
+    const [askCEP, setAskCEP] = useState(false);
     const [retrievedAddress, setRetrievedAddress] = useState(false);
     const [hasAddressError, setHasAddressError] = useState(false);
     const [fetchingCEP, setFetchingCEP] = useState(false);
@@ -102,6 +102,7 @@ function AddCustomer() {
         } else {
             setAskCEP(false);
         }
+        
         setFetchingCEP(true);
         setAskAddress(false);
         const address = await fetchCEP(formData.cep);
@@ -137,7 +138,6 @@ function AddCustomer() {
 
 
     const onSubmit = async data => {
-        // getAddress();
         if (retrievedAddress) {
             saveCustomer();
         } else {
@@ -197,7 +197,7 @@ function AddCustomer() {
                                 CEP
                             </span>
                             {errors.cep && <p className="error-msg">{errors.cep.message}</p>}
-                            {(askAddress) && <p className="error-msg">Busque um CEP válido para preencher o endereço</p>}
+                            {(askAddress || askCEP || hasAddressError) && <p className="error-msg">Busque um CEP válido para preencher o endereço</p>}
                             <input
                                 type="text"
                                 placeholder="CEP"
@@ -206,8 +206,6 @@ function AddCustomer() {
                                 {...register('cep', { required: { value: true, message: "Busque um CEP válido para preencher o endereço" } })}
                                 onChange={handleInputChange}
                                 onKeyDown={handleCepChange}
-                            // onBlur={() => getAddress()}
-                            // onFocus={() => clearErrors('cep')}
                             />
                         </label>
                         <Button
