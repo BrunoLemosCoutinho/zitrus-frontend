@@ -62,6 +62,7 @@ function ListCustomers() {
                     ))}
                 </tbody>
             </Table>
+            <Link to={"/cadastro-cliente"}><Button variant="primary">CADASTRAR NOVO CLIENTE</Button></Link>
         </section>
     );
 }
