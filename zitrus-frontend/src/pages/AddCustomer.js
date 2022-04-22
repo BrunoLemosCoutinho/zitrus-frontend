@@ -12,6 +12,7 @@ function AddCustomer() {
     const { register, handleSubmit, formState: { errors }, clearErrors, setValue } = useForm();
     const [status, setStatus] = useState('');
     const [askAddress, setAskAddress] = useState(false);
+    const [askCEP, setAskCEP] = useState(false);
     const [retrievedAddress, setRetrievedAddress] = useState(false);
     const [hasAddressError, setHasAddressError] = useState(false);
     const [fetchingCEP, setFetchingCEP] = useState(false);
@@ -96,7 +97,10 @@ function AddCustomer() {
 
     const getAddress = async () => {
         if (isCEPEmpty()) {
+            setAskCEP(true);
             return;
+        } else {
+            setAskCEP(false);
         }
         
         setFetchingCEP(true);
@@ -193,7 +197,7 @@ function AddCustomer() {
                                 CEP
                             </span>
                             {errors.cep && <p className="error-msg">{errors.cep.message}</p>}
-                            {(askAddress) && <p className="error-msg">Busque um CEP válido para preencher o endereço</p>}
+                            {(askAddress || askCEP || hasAddressError) && <p className="error-msg">Busque um CEP válido para preencher o endereço</p>}
                             <input
                                 type="text"
                                 placeholder="CEP"
