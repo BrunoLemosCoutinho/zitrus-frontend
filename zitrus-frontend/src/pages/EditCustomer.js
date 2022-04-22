@@ -154,7 +154,6 @@ function EditCustomer({ match }) {
     const handleCepChange = () => {
         resetAddressInputs();
         setRetrievedAddress(false);
-        console.log("digitando em cep porra");
     }
 
 
