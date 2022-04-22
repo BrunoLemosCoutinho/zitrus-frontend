@@ -11,7 +11,6 @@ import './AddCustomer.css';
 function AddCustomer() {
     const { register, handleSubmit, formState: { errors }, clearErrors, setValue } = useForm();
     const [status, setStatus] = useState('');
-    const [askCEP, setAskCEP] = useState(false);
     const [askAddress, setAskAddress] = useState(false);
     const [retrievedAddress, setRetrievedAddress] = useState(false);
     const [hasAddressError, setHasAddressError] = useState(false);
@@ -97,11 +96,9 @@ function AddCustomer() {
 
     const getAddress = async () => {
         if (isCEPEmpty()) {
-            setAskCEP(true);
             return;
-        } else {
-            setAskCEP(false);
         }
+        
         setFetchingCEP(true);
         setAskAddress(false);
         const address = await fetchCEP(formData.cep);
@@ -137,7 +134,6 @@ function AddCustomer() {
 
 
     const onSubmit = async data => {
-        // getAddress();
         if (retrievedAddress) {
             saveCustomer();
         } else {
@@ -206,8 +202,6 @@ function AddCustomer() {
                                 {...register('cep', { required: { value: true, message: "Busque um CEP válido para preencher o endereço" } })}
                                 onChange={handleInputChange}
                                 onKeyDown={handleCepChange}
-                            // onBlur={() => getAddress()}
-                            // onFocus={() => clearErrors('cep')}
                             />
                         </label>
                         <Button

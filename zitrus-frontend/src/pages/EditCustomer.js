@@ -13,11 +13,9 @@ function EditCustomer({ match }) {
     const customerId = match.params.customerId;
     const [isFetching, setIsFetching] = useState(true);
     const [status, setStatus] = useState('');
-    const [askCEP, setAskCEP] = useState(false);
     const [askAddress, setAskAddress] = useState(false);
     const [retrievedAddress, setRetrievedAddress] = useState(true);
     const [hasAddressError, setHasAddressError] = useState(false);
-    const [fetchingCEP, setFetchingCEP] = useState(false);
     const [formData, setFormData] = useState({
         nome: '',
         email: '',
@@ -89,16 +87,12 @@ function EditCustomer({ match }) {
 
     const getAddress = async () => {
         if (isCEPEmpty()) {
-            setAskCEP(true);
             return;
-        } else {
-            setAskCEP(false);
         }
-        setFetchingCEP(true);
+
         setAskAddress(false);
         const address = await fetchCEP(formData.cep);
 
-        setFetchingCEP(false);
         if (isValidAddress(address)) {
             setHasAddressError(false);
             fillAddressInputs(address);
